@@ -8,6 +8,7 @@ using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
@@ -52,13 +53,37 @@ public class Program
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+            // Configurar manualmente o SSL no Kestrel
+            var certPath = "/home/app/.aspnet/https/Ambev.DeveloperEvaluation.WebApi.pfx";
+            var certPassword = "123456";
+
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(8080); // HTTP
+                options.ListenAnyIP(8081, listenOptions =>
+                {
+                    listenOptions.UseHttps(certPath, certPassword);
+                });
+            });
+
             var app = builder.Build();
+            app.Urls.Add("http://0.0.0.0:8080"); 
+            app.Urls.Add("https://0.0.0.0:8081");
+
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader());
+
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docker")
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API v1");
+                });
             }
 
             app.UseHttpsRedirection();
