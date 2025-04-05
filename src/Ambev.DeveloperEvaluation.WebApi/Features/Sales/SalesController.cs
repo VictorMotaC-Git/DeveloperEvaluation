@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class SalesController : BaseController
     {
 
