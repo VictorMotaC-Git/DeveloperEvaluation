@@ -2,7 +2,7 @@
 services:
   ambev.developerevaluation.webapi:
     container_name: ambev_developer_evaluation_webapi
-    image: ambevdeveloperevaluationwebapi
+    image: ${DOCKER_REGISTRY-}ambevdeveloperevaluationwebapi
     build:
       context: .
       dockerfile: src/Ambev.DeveloperEvaluation.WebApi/Dockerfile
@@ -28,7 +28,7 @@ services:
       POSTGRES_USER: developer
       POSTGRES_PASSWORD: ev@luAt10n
     ports:
-      - "5432"
+      - "5432:5432"
     restart: unless-stopped
 
   ambev.developerevaluation.nosql:
