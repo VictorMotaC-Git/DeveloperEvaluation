@@ -3,8 +3,10 @@ using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +22,8 @@ public class Program
         try
         {
             Log.Information("Starting web application");
+
+            AppContext.SetSwitch("System.Net.DisableIPv6", true);
 
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             builder.AddDefaultLogging();
@@ -42,6 +46,7 @@ public class Program
             builder.RegisterDependencies();
 
             builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddMediatR(cfg =>
             {
@@ -66,14 +71,21 @@ public class Program
                 });
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.WithOrigins("https://localhost:8081") // ou "*", se estiver em ambiente de dev interno
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
             app.Urls.Add("http://0.0.0.0:8080"); 
             app.Urls.Add("https://0.0.0.0:8081");
 
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader());
+            app.UseCors("AllowAll");
 
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
@@ -84,6 +96,7 @@ public class Program
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API v1");
                 });
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();

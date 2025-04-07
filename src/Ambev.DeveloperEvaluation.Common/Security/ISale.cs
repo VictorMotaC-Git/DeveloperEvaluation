@@ -12,10 +12,10 @@ namespace Ambev.DeveloperEvaluation.Common.Security
         int SaleNumber { get; }
         DateTime SaleDate { get; }
         Guid CustomerId { get; }
-        decimal TotalAmount { get; }
+        //decimal TotalAmount { get; }
         Guid BranchId { get; }
         bool IsCancelled { get; }
-        IReadOnlyCollection<ISaleItem> Items { get; }
+        //ICollection<ISaleItem> Items { get; }
 
         void AddItem(ISaleItem item);
         void RemoveItem(Guid itemId);

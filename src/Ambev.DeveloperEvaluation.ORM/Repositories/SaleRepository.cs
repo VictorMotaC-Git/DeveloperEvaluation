@@ -23,12 +23,16 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Set<Sale>().Include(s => s.Items).FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Set<Sale>()
+                    //.Include(s => s.Items)
+                    .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         }
 
         public async Task<IEnumerable<Sale>> GetAllAsync()
         {
-            return await _context.Set<Sale>().Include(s => s.Items).ToListAsync();
+            return await _context.Set<Sale>()
+                    //.Include(s => s.Items)
+                    .ToListAsync();
         }
 
         public async Task UpdateAsync(Sale sale, CancellationToken cancellationToken = default)

@@ -1,9 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Common.Security;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using AutoMapper;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale
+namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale
 {
-    public class GetSaleResponse
+    public class GetSaleResult
     {
+
         public Guid Id { get; private set; }
         public int SaleNumber { get; private set; }
         public DateTime SaleDate { get; private set; }
@@ -12,8 +14,5 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale
         public Guid BranchId { get; private set; }
         public bool IsCancelled { get; private set; }
 
-        //public IReadOnlyCollection<ISaleItem> Items => _items.AsReadOnly();
-
-        //private readonly List<ISaleItem> _items = new();
     }
 }

@@ -1,13 +1,10 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
-using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +20,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// Initializes a new instance of SalesController
-        /// </summary>
-        /// <param name="mediator">The mediator instance</param>
-        /// <param name="mapper">The AutoMapper instance</param>
+
         public SalesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
@@ -35,12 +28,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         }
 
 
-        /// <summary>
-        /// Creates a new sale
-        /// </summary>
-        /// <param name="request">The user creation request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The created sale</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<CreateSaleResponse>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
