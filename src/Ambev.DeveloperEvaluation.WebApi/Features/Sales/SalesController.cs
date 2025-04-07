@@ -8,6 +8,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OneOf.Types;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {
@@ -64,13 +65,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                 return BadRequest(validationResult.Errors);
 
             var command = _mapper.Map<GetSaleCommand>(request.Id);
-            var response = await _mediator.Send(command, cancellationToken);
+            var result = await _mediator.Send(command, cancellationToken);
 
             return Ok(new ApiResponseWithData<GetSaleResponse>
             {
                 Success = true,
                 Message = "Sale retrieved successfully",
-                Data = _mapper.Map<GetSaleResponse>(response)
+                Data = _mapper.Map<GetSaleResponse>(result)
             });
         }
 

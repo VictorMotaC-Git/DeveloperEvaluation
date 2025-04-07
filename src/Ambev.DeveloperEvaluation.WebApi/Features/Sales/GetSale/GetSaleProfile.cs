@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale
 {
@@ -8,6 +9,8 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale
         {
             CreateMap<Guid, Application.Sales.GetSale.GetSaleCommand>()
             .ConstructUsing(id => new Application.Sales.GetSale.GetSaleCommand(id));
+
+            CreateMap<GetSaleResult, GetSaleResponse>();
         }
 
     }
