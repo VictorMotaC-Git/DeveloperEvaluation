@@ -30,11 +30,27 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
             if (existingSale != null)
                 throw new InvalidOperationException($"Sale with ID {command.Id} already exists");
 
-            var sale = _mapper.Map<Sale>(command);
+            var sale = new Sale(
+                command.SaleNumber,
+                command.CustomerId,
+                command.BranchId
+            );
 
-            var addSale = await _saleRepository.AddAsync(sale, cancellationToken);
-            var result = _mapper.Map<CreateSaleResult>(addSale);
+            foreach (var item in command.Items)
+            {
+                if (item.Quantity > 20)
+                    throw new ArgumentException("Não é permitido vender mais de 20 unidades de um mesmo item.");
+
+                var saleItem = new SaleItem(item.ProductId, item.Quantity, item.UnitPrice);
+                sale.AddItem(saleItem);
+            }
+
+            var savedSale = await _saleRepository.AddAsync(sale, cancellationToken);
+
+            // Mapear para o resultado final
+            var result = _mapper.Map<CreateSaleResult>(savedSale);
             return result;
         }
+
     }
 }

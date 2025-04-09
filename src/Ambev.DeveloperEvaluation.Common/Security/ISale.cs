@@ -15,7 +15,7 @@ namespace Ambev.DeveloperEvaluation.Common.Security
         //decimal TotalAmount { get; }
         Guid BranchId { get; }
         bool IsCancelled { get; }
-        //ICollection<ISaleItem> Items { get; }
+        ICollection<ISaleItem> Items { get; }
 
         void AddItem(ISaleItem item);
         void RemoveItem(Guid itemId);

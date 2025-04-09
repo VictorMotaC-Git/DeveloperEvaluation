@@ -23,6 +23,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be greater than zero.");
 
+            if (quantity > 20)
+                throw new ArgumentException("Quantity must not exceed 20 items.");
+
             if (unitPrice <= 0)
                 throw new ArgumentException("Unit price must be greater than zero.");
 
@@ -33,7 +36,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Discount = 0;
             IsCancelled = false;
 
-            ApplyDiscount(); // Aplica desconto automaticamente ao criar um item
+            ApplyDiscount();
         }
 
         public void ApplyDiscount()

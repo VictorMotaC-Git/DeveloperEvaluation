@@ -17,6 +17,8 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 
         public bool IsCancelled { get; private set; }
 
+        public List<CreateSaleItemModel> Items { get; set; } = new();
+
         public ValidationResultDetail Validate()
         {
             var validator = new CreateSaleCommandValidator();
@@ -27,5 +29,12 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
                 Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
             };
         }
+    }
+
+    public class CreateSaleItemModel
+    {
+        public Guid ProductId { get; set; }
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
     }
 }
