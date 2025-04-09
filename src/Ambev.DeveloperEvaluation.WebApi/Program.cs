@@ -42,7 +42,6 @@ public class Program
             );
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
-
             builder.RegisterDependencies();
 
             builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
@@ -58,35 +57,25 @@ public class Program
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            // Configurar manualmente o SSL no Kestrel
-            var certPath = "/home/app/.aspnet/https/Ambev.DeveloperEvaluation.WebApi.pfx";
-            var certPassword = "123456";
-
+            // Configurar apenas HTTP (porta 80) – HTTPS opcional
             builder.WebHost.ConfigureKestrel(options =>
             {
-                options.ListenAnyIP(8080); // HTTP
-                options.ListenAnyIP(8081, listenOptions =>
-                {
-                    listenOptions.UseHttps(certPath, certPassword);
-                });
+                options.ListenAnyIP(80); // compatível com Docker
             });
 
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
                 {
-                    policy.WithOrigins("https://localhost:8081") // ou "*", se estiver em ambiente de dev interno
+                    policy.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
             });
 
             var app = builder.Build();
-            app.Urls.Add("http://0.0.0.0:8080"); 
-            app.Urls.Add("https://0.0.0.0:8081");
 
             app.UseCors("AllowAll");
-
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
             if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docker")
@@ -95,17 +84,14 @@ public class Program
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API v1");
+                    c.RoutePrefix = string.Empty; // Abre diretamente em http://localhost:5020
                 });
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseBasicHealthChecks();
-
             app.MapControllers();
 
             app.Run();
