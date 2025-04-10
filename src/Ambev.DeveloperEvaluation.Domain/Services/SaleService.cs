@@ -29,9 +29,10 @@ namespace Ambev.DeveloperEvaluation.Domain.Services
             return await _saleRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Sale>> GetAllSalesAsync()
+        public async Task<IEnumerable<Sale>> GetAllSalesAsync(CancellationToken cancellationToken = default)
+
         {
-            return await _saleRepository.GetAllAsync();
+            return await _saleRepository.GetAllAsync(cancellationToken);
         }
 
         public async Task UpdateSaleAsync(Sale sale)

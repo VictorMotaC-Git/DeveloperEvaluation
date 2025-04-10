@@ -75,21 +75,21 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             });
         }
 
-        //[HttpGet]
-        //[ProducesResponseType(typeof(ApiResponseWithData<IEnumerable<GetSaleResponse>>), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> GetAllSales(CancellationToken cancellationToken)
-        //{
-        //    var command = new GetAllSalesCommand();
-        //    var response = await _mediator.Send(command, cancellationToken);
+        [HttpGet]
+        [ProducesResponseType(typeof(ApiResponseWithData<IEnumerable<GetSaleResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllSales(CancellationToken cancellationToken)
+        {
+            var command = new GetAllSalesCommand();
+            var response = await _mediator.Send(command, cancellationToken);
 
-        //    return Ok(new ApiResponseWithData<IEnumerable<GetSaleResponse>>
-        //    {
-        //        Success = true,
-        //        Message = "Sales retrieved successfully",
-        //        Data = _mapper.Map<IEnumerable<GetSaleResponse>>(response)
-        //    });
-        //}
+            return Ok(new ApiResponseWithData<IEnumerable<GetSaleResponse>>
+            {
+                Success = true,
+                Message = "Sales retrieved successfully",
+                Data = _mapper.Map<IEnumerable<GetSaleResponse>>(response)
+            });
+        }
 
         //[HttpPut("{id}")]
         //public async Task<IActionResult> UpdateSale(Guid id, [FromBody] Sale sale)

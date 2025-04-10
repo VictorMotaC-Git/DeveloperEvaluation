@@ -1,6 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Common.Security;
-using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
@@ -28,10 +26,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                     .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         }
 
-        public async Task<IEnumerable<Sale>> GetAllAsync()
+        public async Task<IEnumerable<Sale>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Set<Sale>()
-                    //.Include(s => s.Items)
                     .ToListAsync();
         }
 

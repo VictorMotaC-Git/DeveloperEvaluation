@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NETWORK_NAME=ambev-network  # Correção aqui
+NETWORK_NAME=evaluation-network  # Correção aqui
 
 echo "🔍 Verificando se a rede '$NETWORK_NAME' existe..."
 

@@ -12,7 +12,7 @@ services:
     ports:
       - "5020:80"
     networks:
-      - ambev-network
+      - evaluation-network
 
   ambev.developerevaluation.database:
     container_name: ambev_developer_evaluation_database
@@ -25,7 +25,7 @@ services:
       - "5432:5432"
     restart: unless-stopped
     networks:
-      - ambev-network
+      - evaluation-network
 
   ambev.developerevaluation.nosql:
     container_name: ambev_developer_evaluation_nosql
@@ -36,7 +36,7 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - ambev-network
+      - evaluation-network
 
   ambev.developerevaluation.cache:
     container_name: ambev_developer_evaluation_cache
@@ -45,7 +45,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - ambev-network
+      - evaluation-network
 
   api-gateway:
     container_name: ambev_developer_evaluation_gateway
@@ -57,8 +57,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     networks:
-      - ambev-network
+      - evaluation-network
 
 networks:
-  ambev-network:
+  evaluation-network:
     external: true
