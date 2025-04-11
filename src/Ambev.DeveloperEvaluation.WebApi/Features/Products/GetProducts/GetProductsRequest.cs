@@ -2,5 +2,6 @@
 {
     public class GetProductsRequest
     {
+        public Guid Id { get; set; }
     }
 }
