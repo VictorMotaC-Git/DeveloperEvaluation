@@ -47,13 +47,13 @@ services:
     networks:
       - evaluation-network
 
-  api-gateway:
+  ocelot-gateway:
     container_name: ocelot-gateway
     build:
       context: .
       dockerfile: src/Ambev.DeveloperEvaluation.ApiGateway/Dockerfile
     ports:
-      - "5010:80"
+      - "7777:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
     networks:
