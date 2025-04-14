@@ -10,12 +10,14 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
     public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
     {
         private readonly ISaleRepository _saleRepository;
+        private readonly ISaleItemFactory _saleItemFactory;
         private readonly IMapper _mapper;
 
-        public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, IPasswordHasher passwordHasher)
+        public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, ISaleItemFactory saleItemFactory)
         {
             _saleRepository = saleRepository;
             _mapper = mapper;
+            _saleItemFactory = saleItemFactory;
         }
 
         public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
@@ -41,7 +43,8 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
                 if (item.Quantity > 20)
                     throw new ArgumentException("Não é permitido vender mais de 20 unidades de um mesmo item.");
 
-                var saleItem = new SaleItem(item.ProductId, item.Quantity, item.UnitPrice);
+                //var saleItem = new SaleItem(item.ProductId, item.Quantity, item.UnitPrice);
+                var saleItem = _saleItemFactory.Create(item.ProductId, item.Quantity, item.UnitPrice);
                 sale.AddItem(saleItem);
             }
 

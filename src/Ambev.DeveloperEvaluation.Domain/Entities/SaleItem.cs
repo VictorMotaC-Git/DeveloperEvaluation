@@ -1,10 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -18,7 +13,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public decimal TotalPrice => (UnitPrice * Quantity) - Discount;
         public bool IsCancelled { get; private set; }
 
-        public SaleItem(Guid productId, int quantity, decimal unitPrice)
+        public SaleItem(Guid productId, int quantity, decimal unitPrice, decimal discount)
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be greater than zero.");
@@ -33,7 +28,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             ProductId = productId;
             Quantity = quantity;
             UnitPrice = unitPrice;
-            Discount = 0;
+            Discount = discount;
             IsCancelled = false;
 
             ApplyDiscount();
