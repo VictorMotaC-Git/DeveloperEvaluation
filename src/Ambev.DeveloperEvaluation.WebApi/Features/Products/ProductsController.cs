@@ -46,7 +46,7 @@ public class ProductsController : ControllerBase
         return Ok(new ApiResponseWithData<GetProductsResponse>
         {
             Success = true,
-            Message = "Sale retrieved successfully",
+            Message = "Product retrieved successfully",
             Data = _mapper.Map<GetProductsResponse>(result)
         });
     }

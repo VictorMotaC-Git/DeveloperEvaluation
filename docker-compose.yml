@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   ambev.developerevaluation.webapi:
-    container_name: ambev_developer_evaluation_webapi
+    container_name: sales-api
     build:
       context: .
       dockerfile: src/Ambev.DeveloperEvaluation.WebApi/Dockerfile
@@ -48,7 +48,7 @@ services:
       - evaluation-network
 
   api-gateway:
-    container_name: ambev_developer_evaluation_gateway
+    container_name: ocelot-gateway
     build:
       context: .
       dockerfile: src/Ambev.DeveloperEvaluation.ApiGateway/Dockerfile
